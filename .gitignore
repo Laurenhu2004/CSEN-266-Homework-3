@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Claude
+CLAUDE.md
+.claude/
+
+# macOS
+.DS_Store
+
+# Autograder output
+autograder_run_results.txt
+
+# Distribution / packaging
+*.zip
