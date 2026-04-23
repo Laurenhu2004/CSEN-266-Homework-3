@@ -120,17 +120,17 @@ def iterativeDeepeningSearch(problem):
         if depth == 0:
             return None
         for neighbor in problem.getSuccessors(current):
-            next = neighbor[0]
-            if next not in visited:
-                out = depthLimitedSearch(next, depth-1, path + [neighbor[1]], visited + [next])
-                if out:
+            state = neighbor[0]
+            if state not in visited:
+                out = depthLimitedSearch(state, depth-1, path + [neighbor[1]], visited | {state})
+                if out is not None:
                     return out
         return None
             
     depth = 0
     while(1):
-        final_path = depthLimitedSearch(problem.getStartState(), depth, [], [problem.getStartState()])
-        if final_path:
+        final_path = depthLimitedSearch(problem.getStartState(), depth, [], {problem.getStartState()})
+        if final_path is not None:
             return final_path
         depth += 1
 
