@@ -89,8 +89,30 @@ def depthFirstSearch(problem: SearchProblem) -> List[Directions]:
     print("Is the start a goal?", problem.isGoalState(problem.getStartState()))
     print("Start's successors:", problem.getSuccessors(problem.getStartState()))
     """
-    "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    frontier = util.Stack()
+
+    frontier.push((problem.getStartState(), []))
+
+    visited = set()
+
+    while not frontier.isEmpty(): 
+        state, path = frontier.pop()
+
+        if state in visited: 
+            continue
+
+        visited.add(state)
+
+        if problem.isGoalState(state): 
+            return path
+        
+        for nextState, move, cost in problem.getSuccessors(state): 
+            if nextState in visited: 
+                continue
+            frontier.push((nextState, path + [move]))
+
+    return []
+
 
 def breadthFirstSearch(problem: SearchProblem) -> List[Directions]:
     """Search the shallowest nodes in the search tree first."""
@@ -140,8 +162,31 @@ def iterativeDeepeningSearch(problem):
 
 def uniformCostSearch(problem: SearchProblem) -> List[Directions]:
     """Search the node of least total cost first."""
-    "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    frontier = util.PriorityQueue()
+
+    frontier.push((problem.getStartState(), [], 0), 0)
+
+    costIdeal = {}
+
+    while not frontier.isEmpty():
+        state, path, cost = frontier.pop()
+
+        if state in costIdeal and cost >= costIdeal[state]: 
+            continue
+
+        if problem.isGoalState(state): 
+            return path
+        
+        costIdeal[state] = cost
+
+        for nextState, move, nextCost in problem.getSuccessors(state): 
+            updatedCost = cost + nextCost
+            
+            if nextState in costIdeal and updatedCost >= costIdeal[nextState]: 
+                continue
+            frontier.push((nextState, path + [move], updatedCost), updatedCost)
+
+    return []
 
 def nullHeuristic(state, problem=None) -> float:
     """
