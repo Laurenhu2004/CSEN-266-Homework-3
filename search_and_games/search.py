@@ -93,9 +93,25 @@ def depthFirstSearch(problem: SearchProblem) -> List[Directions]:
     util.raiseNotDefined()
 
 def breadthFirstSearch(problem: SearchProblem) -> List[Directions]:
-    """Search the shallowest nodes in the search tree first."""
-    "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    frontier = []
+
+    parent_map = {problem.getStartState(): None}
+    frontier.append(problem.getStartState())
+
+    while frontier:
+        current = frontier.pop(0)
+
+        if problem.isGoalState(current):
+            path = []
+            while parent_map[current] is not None:
+                path.append(parent_map[current][1])
+                current = parent_map[current][0]
+            return path[::-1]
+        
+        for neighbor in problem.getSuccessors(current):
+            if neighbor[0] not in parent_map:
+                parent_map[neighbor[0]] = [current, neighbor[1]]
+                frontier.append(neighbor[0])
 
 def iterativeDeepeningSearch(problem):
     """
