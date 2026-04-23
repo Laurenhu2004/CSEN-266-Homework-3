@@ -93,6 +93,7 @@ def depthFirstSearch(problem: SearchProblem) -> List[Directions]:
     util.raiseNotDefined()
 
 def breadthFirstSearch(problem: SearchProblem) -> List[Directions]:
+    """Search the shallowest nodes in the search tree first."""
     frontier = []
 
     parent_map = {problem.getStartState(): None}
@@ -114,6 +115,9 @@ def breadthFirstSearch(problem: SearchProblem) -> List[Directions]:
                 frontier.append(neighbor[0])
 
 def iterativeDeepeningSearch(problem):
+    """
+    Perform DFS with increasingly larger depth. Begin with a depth of 1 and increment depth by 1 at every step.
+    """
     def depthLimitedSearch(current, depth, path, visited):
         if problem.isGoalState(current):
             return path
