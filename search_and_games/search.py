@@ -114,11 +114,25 @@ def breadthFirstSearch(problem: SearchProblem) -> List[Directions]:
                 frontier.append(neighbor[0])
 
 def iterativeDeepeningSearch(problem):
-    """
-    Perform DFS with increasingly larger depth. Begin with a depth of 1 and increment depth by 1 at every step.
-    """
-    "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    def depthLimitedSearch(current, depth, path, visited):
+        if problem.isGoalState(current):
+            return path
+        if depth == 0:
+            return None
+        for neighbor in problem.getSuccessors(current):
+            next = neighbor[0]
+            if next not in visited:
+                out = depthLimitedSearch(next, depth-1, path + [neighbor[1]], visited + [next])
+                if out:
+                    return out
+        return None
+            
+    depth = 0
+    while(1):
+        final_path = depthLimitedSearch(problem.getStartState(), depth, [], [problem.getStartState()])
+        if final_path:
+            return final_path
+        depth += 1
 
 def uniformCostSearch(problem: SearchProblem) -> List[Directions]:
     """Search the node of least total cost first."""
